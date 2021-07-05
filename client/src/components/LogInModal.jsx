@@ -1,28 +1,18 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import color from "../theme";
+import { ModalContainer } from "./common/ModalContainer";
+import { Modal } from "./common/Modal";
+import icon from "../img/icon_middle.png";
 
-const ModalContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${color.black};
-`;
+const MyModal = styled(Modal)`
+  position: relative;
 
-export const Modal = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 32em;
-  height: 20em;
-  margin: 12px;
-  padding: 12px;
-  border: 4px solid ${color.white};
-  border-radius: 24px;
-  color: ${color.white};
+  img {
+    position: absolute;
+    top: -122px;
+  }
 
   h2 {
     margin-top: 0;
@@ -33,16 +23,16 @@ export const Modal = styled.div`
   }
 
   input {
-    border: 2px solid ${color.red};
+    border: 2px solid ${color.orange};
     background-color: transparent;
     color: ${color.white};
-    padding: 4px;
+    padding: 10px;
     margin: 8px 0;
     font-size: 24px;
   }
 
   button {
-    width: 100px;
+    width: 120px;
     padding: 8px 10px;
     margin-top: 20px;
     background-color: ${color.white};
@@ -53,31 +43,33 @@ export const Modal = styled.div`
   }
 
   button:hover {
-    transform: scale(1.1);
+    background-color: ${color.orange};
+    color: white;
     cursor: pointer;
   }
 `;
 
-const LogInModal = ({ setUserName, setRoomName, connectToRoom }) => {
+const LogInModal = () => {
+  const [userName, setUserName] = useState("");
+  const [room, setRoom] = useState("chatRoom");
+
   return (
     <ModalContainer>
-      <Modal>
-        <h2>
-          Wellcome To <span>🐺</span> Game!
-        </h2>
+      <MyModal>
+        <img src={icon} alt="wolf img" />
+        <h2>Wellcome To The Wolf Game!</h2>
         <input
           type="text"
-          onChange={(e) => setUserName(e.target.value)}
           placeholder="name"
-        ></input>
-        <label></label>
-        <input
-          type="text"
-          onChange={(e) => setRoomName(e.target.value)}
-          placeholder="room name"
-        ></input>
-        <button onClick={() => connectToRoom()}>ENTER</button>
-      </Modal>
+          onChange={(e) => setUserName(e.target.value)}
+        />
+        <Link
+          onClick={(e) => (!userName ? e.preventDefault() : null)}
+          to={`/chat?name=${userName}&room=${room}`}
+        >
+          <button type="submit">Ready?</button>
+        </Link>
+      </MyModal>
     </ModalContainer>
   );
 };
