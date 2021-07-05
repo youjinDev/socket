@@ -1,5 +1,10 @@
 {
-  "dependencies": {
-    "socket.io": "^4.1.2"
+  "devDependencies": {
+    "concurrently": "^6.2.0"
+  },
+  "scripts": {
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run start --prefix client\"",
+    "server": "npm run start-dev --prefix server"
   }
 }
